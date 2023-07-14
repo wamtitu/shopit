@@ -1,0 +1,7 @@
+.products {
+    display: 'flex';
+    /* grid-template-columns: auto auto auto; */
+}
+h1 {
+    margin-left: 6%;
+}

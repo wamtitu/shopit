@@ -1,0 +1,44 @@
+.nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 15vh;
+    width: 100%;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+ul{
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+.user{
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+}
+ul a{
+  text-decoration: none; 
+  color: black;
+}
+img{
+    width: 70px;
+    height: 70px;
+}
+.cart {
+    position: relative;
+    /* width: 40px;
+    height: 40px; */
+}
+.cart span{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
