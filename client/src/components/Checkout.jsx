@@ -1,8 +1,11 @@
 import axios from 'axios'
 
+
 function CheckOut({cartItems}) {
+    const user = 1;
     const handleCheckout = ()=>{
         axios.post('http://localhost:5000/create-checkout-session', {
+            userID: user,
             cartItems
         }).then((res)=>{
             if(res.data.url){

@@ -1,6 +1,7 @@
 import {register, login} from '../controllers/authController.js'
 import { addProduct,getProducts, getProductsByBrand, getProductsByCategory, getProductsByID } from '../controllers/productcontroller.js'
-import { stripeCheckout } from '../controllers/stripeController.js'
+import { stripeCheckout, webhookHandler } from '../controllers/stripeController.js'
+import express from 'express';
 
 
 export const routes = (app)=>{
@@ -12,5 +13,7 @@ export const routes = (app)=>{
     app.route('/products/brand/:brandName').get(getProductsByBrand)
     app.route('/products/:id').get(getProductsByID)
     app.route('/create-checkout-session').post(stripeCheckout)
+    app.route('/webhook').post( express.raw({ type: 'application/json' }), webhookHandler)
+
 
 }

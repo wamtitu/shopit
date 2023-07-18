@@ -1,7 +1,25 @@
 import {createProductFailure, createProductSuccess, createProductStart, getProductFailure, getProductSuccess, getProductStart,
 getProductByIdFailure, getProductByIdSuccess, getProductByIdStart} from './productSlice';
+import {    loginStart,loginFailure,loginSuccess,logout} from './userSlice'
 import axios from 'axios';
 
+    export const loginUser = async(dispatch,data)=>{
+        console.log(data,dispatch);
+    dispatch(loginStart());
+        try{
+    const response = await axios.post(`http://localhost:5000/auth/login`, data);
+    dispatch(loginSuccess(data));
+    alert('logged in succesfully');
+    console.log(data);
+        }catch(err){
+    console.log(err)
+    dispatch(loginFailure());
+        }
+    }
+export const logOutuser = async(dispatch)=>{
+    console.log(dispatch);
+dispatch(logout())
+}
 
 export const addProduct = async (dispatch, productData)=>{
     dispatch(createProductStart())

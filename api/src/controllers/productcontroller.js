@@ -94,7 +94,7 @@ export const getProductsByID = async (req, res) => {
   let pool = await sql.connect(config.sql)
   const result = await pool.request()
   .input('id', sql.VarChar, id)
-  .query(`SELECT name, images, description, price, status, brandName, categoryName FROM product INNER JOIN brand ON product.brand = brand.brandID INNER JOIN category ON product.category = category.categoryID WHERE productID = ${id}`);
+  .query(`SELECT name, images, productID, description, price, status, brandName, categoryName FROM product INNER JOIN brand ON product.brand = brand.brandID INNER JOIN category ON product.category = category.categoryID WHERE productID = ${id}`);
   !result.recordset[0] ? res.status(404).json({ message: 'product not found' }) :
       res.status(200).json(result.recordset);
   sql.close(); 

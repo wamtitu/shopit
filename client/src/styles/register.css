@@ -1,0 +1,31 @@
+.form-container-register{
+    margin: 2% 15%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: rgb(123, 247, 185);
+    height: 70vh;
+    border-radius: 5px;
+}
+.register{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    background: rgb(8, 238, 161);
+    margin: 3%;
+    border-radius: 6%;
+}
+.register input{
+    height: 30px;
+    width: 80%;
+    border-radius: 8px;
+}
+.left{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-right: 1px solid black;
+    border-radius: 5%;
+}

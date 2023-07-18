@@ -10,6 +10,8 @@ import Footer from './components/Footer';
 import NotFound from './pages/NotFound'
 import AddProduct from './pages/AddProduct';
 import Cart from './pages/Cart';
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 import {ToastContainer} from 'react-toastify'
 import CheckoutSuccess from './components/CheckoutSuccess';
@@ -29,6 +31,8 @@ function App() {
         <Route path='/categories/mens' element = {<Brands/>}></Route>
         <Route path='/categories/unisex' element = {<Brands/>}></Route>
         <Route path='/admin/items' element = {<AddProduct/>}></Route>
+        <Route path='/login' element = {<Login/>}></Route>
+        <Route path='/register' element = {<Register/>}></Route>
         <Route path='*' element = {<NotFound/>}></Route>
         </Routes>
       <Footer/>

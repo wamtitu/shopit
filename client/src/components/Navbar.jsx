@@ -18,6 +18,8 @@ function Navbar() {
             <Link to = '/categories/womens'>womens</Link>
             <Link to = '/categories/mens'>mens</Link>
             <Link to = '/categories/unisex'>unisex</Link>
+            <Link to = '/register'>register</Link>
+            <Link to = '/login'>login</Link>
         </ul>
         
         
