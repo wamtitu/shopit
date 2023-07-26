@@ -53,10 +53,15 @@ const productSlice = createSlice({
         getProductByIdFailure: (state)=>{
             state.isFetching = false;
             state.error = false;
-        }
+        },
+        getProductByIdCategoryMens: (state, action) =>{
+            state.isFetching = false;
+            state.products = action.payload
+            state.error = false;
+        },
     }
 })
 
-export const {createProductFailure, createProductStart, createProductSuccess, getProductFailure, getProductSuccess, getProductStart,
+export const {getProductByIdCategoryMens, createProductFailure, createProductStart, createProductSuccess, getProductFailure, getProductSuccess, getProductStart,
 getProductByIdFailure, getProductByIdStart, getProductByIdSuccess} = productSlice.actions;
 export default productSlice.reducer;

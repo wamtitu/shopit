@@ -1,0 +1,17 @@
+.admin{
+    display:flex;
+    background: rgb(59, 59, 59);
+    color: aliceblue;
+    height: 100vh;
+}
+.side{
+    width: 20%;
+    background-color: rgb(48, 47, 47);
+    /* border-right: 1px solid black; */
+    height: 100%;
+    box-shadow: 5px 0px 20px rgba(88, 87, 87, 0.2);
+}
+.main{
+    width: 80%;
+    margin-left: 4%;
+}

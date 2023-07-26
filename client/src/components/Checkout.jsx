@@ -1,8 +1,9 @@
 import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 
 function CheckOut({cartItems}) {
-    const user = 1;
+    const user = useSelector((state)=>state.user?.currentUser?.id)
     const handleCheckout = ()=>{
         axios.post('http://localhost:5000/create-checkout-session', {
             userID: user,
@@ -10,6 +11,8 @@ function CheckOut({cartItems}) {
         }).then((res)=>{
             if(res.data.url){
                 window.location.href = res.data.url
+                localStorage.removeItem('cartItems');
+                console.log('cleared')
             }
         }).catch((error=>{
             console.log(error)

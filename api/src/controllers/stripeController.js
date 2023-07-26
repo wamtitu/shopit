@@ -1,6 +1,7 @@
 import {config} from '../../config.js';
 import Stripe from 'stripe';
 import sql from 'mssql'
+import nodeMailer from "nodemailer";
 
 const stripe = Stripe('sk_test_51NTio4KmIVPBBBZEPFzf5pHD66IFAN2Iiv6xp3SpJzw8OzFgMNot5nK0u1rHA8WSo09cNpTjaMfZFaWjzIWJXoqn00jY88NuZl')
 const client = 'http://localhost:5173/'
@@ -51,8 +52,8 @@ res.send({url: session.url});
   const createOrder = async (customer, data) => {
     try {
       const item = JSON.parse(customer.metadata.cart);
-      console.log(item)
       const pool = await sql.connect(config.sql);
+      console.log(data.customer_details.email)
       const order = await pool
         .request()
         .input('userID', sql.Int, customer.metadata.userID)
@@ -63,6 +64,37 @@ res.send({url: session.url});
         .input('shippingAddress', sql.VarChar(), data.customer_details.address.country)
         .input('totalAmount', sql.Int, data.amount_total/100)
         .query('INSERT INTO orders (userID, productName, quantity, shippingAddress,totalAmount, paymentIntent) VALUES (@userID, @productName, @quantity, @shippingAddress, @totalAmount, @paymentIntent)');
+
+        //mailing the order
+        let transporter = nodeMailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: "wamtitujose@gmail.com",
+            pass: 'truvowxubnqosevz',
+          },
+        });
+        let mailOptions = {
+          from: 'wamtitujose@gmail.com',
+          to: data.customer_details.email,
+          subject: "Your order has been in placed successfully!",
+          html: `<h2>confirm your order</h2>
+             <p>product: ${item[0].name}</p>
+             <p>quantity: ${item[0].cartTotalquantity}</p>
+             <p>amount: ${data.amount_total/100}</p>
+             <p>shipping address: ${data.customer_details.address.country}'-' ${data.customer_details.address.city}</p>
+             <img src = ${item[0].images} />
+             <h3>thanks for shopping at shopit<h3>
+             `,
+        };
+        transporter.sendMail(mailOptions, (err, data) => {
+          if (err) {
+            console.log("Error Occurred", err);
+            // res.status(500).json({ error: "Error sending email." });
+          } else {
+            console.log(`Email sent to ${data.response}`);
+            // res.status(201).json({ message: "order created successfully!" });
+          }
+        })
   
     } catch (error) {
       console.error('Error creating order:', error);
@@ -103,8 +135,8 @@ export const webhookHandler = (request, response) => {
         // console.log(...item)
         // console.log(item[0].name)
         createOrder(customer, data)
-        // console.log(data)
-        // console.log(customer)
+        console.log(data)
+        console.log(customer)
       }
     ).catch(err=> console.log(err.message))
    }

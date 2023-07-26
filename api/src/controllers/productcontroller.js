@@ -72,7 +72,7 @@ export const getProductsByCategory = async (req, res) => {
   let pool = await sql.connect(config.sql)
   const result = await pool.request()
   .input('categoryName', sql.VarChar, categoryName)
-  .query("SELECT name, description, price, status, brandName FROM product INNER JOIN brand ON product.brand = brand.brandID WHERE product.category = (SELECT categoryID FROM category WHERE categoryName = @categoryName)");
+  .query("SELECT name, productID, description, price, status, images, brandName FROM product INNER JOIN brand ON product.brand = brand.brandID WHERE product.category = (SELECT categoryID FROM category WHERE categoryName = @categoryName)");
   !result.recordset[0] ? res.status(404).json({ message: 'category not found' }) :
       res.status(200).json(result.recordset);
   sql.close(); 
@@ -83,7 +83,7 @@ export const getProductsByBrand = async (req, res) => {
   let pool = await sql.connect(config.sql)
   const result = await pool.request()
   .input('brandName', sql.VarChar, brandName)
-  .query("SELECT name, description, price, status, categoryName FROM product INNER JOIN category ON product.category = category.categoryID WHERE product.brand = (SELECT brandID FROM brand WHERE brandName = @brandName)");
+  .query("SELECT name, description, productID, price, status, images, categoryName FROM product INNER JOIN category ON product.category = category.categoryID WHERE product.brand = (SELECT brandID FROM brand WHERE brandName = @brandName)");
   !result.recordset[0] ? res.status(404).json({ message: 'brand not found' }) :
       res.status(200).json(result.recordset);
   sql.close(); 
@@ -106,5 +106,97 @@ export const getProducts = async (req, res) => {
   .query("SELECT name, productID, description, price,images, status, brandName, categoryName FROM product INNER JOIN brand ON product.brand = brand.brandID INNER JOIN category ON product.category = category.categoryID");
   !result.recordset[0] ? res.status(404).json({ message: 'no items found' }) :
       res.status(200).json(result.recordset);
+};
+
+export const getTopDeals = async (req, res) => {
+  let pool = await sql.connect(config.sql)
+  const result = await pool.request()
+  .query("SELECT TOP 8 name, productID, description, price,images, status, brandName, categoryName FROM product INNER JOIN brand ON product.brand = brand.brandID INNER JOIN category ON product.category = category.categoryID");
+  !result.recordset[0] ? res.status(404).json({ message: 'no deals found' }) :
+      res.status(200).json(result.recordset);
   sql.close(); 
 };
+
+export const deleteProduct = async (req, res) => {
+  try{
+    const {id} = req.params;
+    let pool = await sql.connect(config.sql);
+  const result = await pool.request().query(`DELETE FROM product WHERE productID = ${id}`)
+  res.status(200).send('deleted')
+  }catch(error){
+    res.status(200).send(error)
+    console.log(error)
+  }finally{
+    sql.close();
+  }
+}
+export const updateProduct = async (req, res)=>{
+  try {
+    const id = req.params.id;
+    const{name,brand,category,price, status,images,description} = req.body;
+    let pool = await sql.connect(config.sql);
+
+    const categoryResult = await pool
+    .request()
+    .input('category', sql.VarChar, category)
+    .query('SELECT categoryID FROM category WHERE categoryName = @category');
+
+  let categoryId;
+  if (categoryResult.recordset.length === 0) {
+    // Category does not exist, create a new one
+    const createCategory = await pool
+      .request()
+      .input('category', sql.VarChar, category)
+      .query('INSERT INTO category (categoryName) VALUES (@category); SELECT SCOPE_IDENTITY() AS categoryID');
+
+    categoryId = createCategory.recordset[0].categoryID;
+  } else {
+    // Category exists, retrieve its ID
+    categoryId = categoryResult.recordset[0].categoryID;
+  }
+
+  // Check if the brand exists
+  const brandResult = await pool
+    .request()
+    .input('brand', sql.VarChar, brand)
+    .query('SELECT brandID FROM brand WHERE brandName = @brand');
+
+  let brandId;
+  if (brandResult.recordset.length === 0) {
+    // brand does not exist, create a new one
+    const createBrand = await pool
+      .request()
+      .input('brand', sql.VarChar, brand)
+      .query('INSERT INTO brand (brandName) VALUES (@brand); SELECT SCOPE_IDENTITY() AS brandID');
+
+    brandId = createBrand.recordset[0].brandID;
+  } else {
+    // brand exists, retrieve its ID
+    brandId = brandResult.recordset[0].brandID;
+  }
+    const updateProduct = await pool.request()
+    .input("name", sql.VarChar, name)
+    .input("brandId", sql.Int, brandId)
+    .input("categoryId", sql.Int, categoryId)
+    .input("description", sql.VarChar, description)
+    .input("images", sql.VarChar, images)
+    .input("status", sql.VarChar, status)
+    .input("price", sql.VarChar, price)
+    .query(`UPDATE product
+    SET name = @name,
+        brand = @brandId,
+        category = @categoryId,
+        status = @status,
+        images = @images,
+        description = @description,
+        price = @price
+    WHERE productID = ${id};
+    `)
+    res.status(200).json(updateProduct)
+    console.log('product upto date')
+    
+  } catch (error) {
+    res.send(error)
+    console.log(error)
+  }
+}

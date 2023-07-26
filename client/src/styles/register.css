@@ -21,11 +21,13 @@
     width: 80%;
     border-radius: 8px;
 }
+.register p{
+    color: red;
+}
 .left{
     display:flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    border-right: 1px solid black;
     border-radius: 5%;
 }

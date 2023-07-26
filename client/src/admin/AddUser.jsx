@@ -1,10 +1,8 @@
 import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-// import './../styles/register.css'
 import axios from 'axios'
-import '../styles/register.css'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 const schema = yup.object({
     name: yup.string().required(),

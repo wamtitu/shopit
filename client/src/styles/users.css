@@ -1,0 +1,30 @@
+.users{
+    background: white;
+    padding: 20px;
+    margin-top: 1%;
+    height: 50vh;
+    overflow-y: scroll;
+}
+.user-header{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.add-user{
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    width: 8rem;
+    cursor: pointer;
+}
+.MuiDataGrid-toolbarContainer{
+    flex-direction: row-reverse;
+    background: rgb(175, 170, 170);
+}
+.edit-icon{
+    color: green;
+    padding-right: 20px;
+}
+.delete-icon{
+    color: red;
+}

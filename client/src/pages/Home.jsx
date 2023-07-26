@@ -14,9 +14,12 @@ function Home() {
      getProducts(dispatch)
   }, [dispatch])
 
+ 
+
   useEffect(()=>{
     setItems(products.products)
   },[products])
+
 
   return (
     <>

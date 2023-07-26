@@ -25,7 +25,7 @@ const userSlice = createSlice({
         },
         logout: (state) => {
             state.currentUser = null;
-    },
+       }
     }
 })
 export const {loginStart,loginSuccess,loginFailure,logout} = userSlice.actions;

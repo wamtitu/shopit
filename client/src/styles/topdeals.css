@@ -1,0 +1,14 @@
+.top{
+    display: flex;
+    flex-direction: column;
+}
+.deal-item{
+    display: flex;
+    justify-content: space-evenly;
+    /* border: 1px solid white;   */
+    border-radius: 5px;
+    margin-top: 10px;
+    background: azure;
+    color: black;
+    /* align-items: center; */
+}

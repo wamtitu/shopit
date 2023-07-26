@@ -1,16 +1,14 @@
 import {createProductFailure, createProductSuccess, createProductStart, getProductFailure, getProductSuccess, getProductStart,
-getProductByIdFailure, getProductByIdSuccess, getProductByIdStart} from './productSlice';
+getProductByIdFailure, getProductByIdSuccess, getProductByIdStart, getProductByIdCategoryMens} from './productSlice';
 import {    loginStart,loginFailure,loginSuccess,logout} from './userSlice'
 import axios from 'axios';
 
-    export const loginUser = async(dispatch,data)=>{
-        console.log(data,dispatch);
+    export const loginUser = async(dispatch, user)=>{
+        console.log(user,dispatch);
     dispatch(loginStart());
         try{
-    const response = await axios.post(`http://localhost:5000/auth/login`, data);
+      const {data}=await axios.post(`http://localhost:5000/auth/login`, user);
     dispatch(loginSuccess(data));
-    alert('logged in succesfully');
-    console.log(data);
         }catch(err){
     console.log(err)
     dispatch(loginFailure());
@@ -43,4 +41,12 @@ export const getProducts = async (dispatch)=>{
     }
 }
 
+// export const getMensProducts = async (dispatch)=>{
+//     try {
+//        const response =  await axios.get("http://localhost:5000/products/category/mens")
+//         dispatch(getProductByIdCategoryMens(response.data))
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
   

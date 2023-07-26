@@ -1,0 +1,21 @@
+.profile{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.prof-img{
+    border-bottom: 1px solid black;
+
+}
+/* .orders table{
+    display: flex;
+    background: red;
+    justify-content: space-between;
+}
+TableRow{
+    padding: 20px;
+    color: aliceblue;
+} */

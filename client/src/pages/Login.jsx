@@ -2,25 +2,39 @@ import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import '../styles/login.css'
-import {useNavigate} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import { loginUser } from '../redux/apiCalls'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
 const schema = yup.object({
     email: yup.string().required('email is required'),
     password: yup.string().required('password is required'),
 })
 
 function Login() {
+    const user = useSelector((state)=>state.user?.currentUser?.token)
+
     const dispatch = useDispatch();
-     const navigate = useNavigate();
     const {register, handleSubmit, formState:{errors}} = useForm({
         resolver: yupResolver(schema)
     });
-
+    const navigate = useNavigate();
+   useEffect(()=>{
+    if  (user){
+    
+      navigate('/');
+    
+    }else{
+      navigate('/login')
+     }
+   }, [user]);
     const onsubmit= async (data)=>{
         loginUser(dispatch, data)
-        navigate("/")
+      
     }
+    
   return (
     <div>
     <div className="form-container-login">

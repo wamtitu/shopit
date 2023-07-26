@@ -1,0 +1,15 @@
+.sidenav{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    gap: 20Px;
+}
+.a1{
+    display: flex;
+    text-decoration: none;
+    color: azure;
+    padding: 20px;
+    font-size: large;
+    border-bottom: 1px solid azure;
+    cursor: pointer;
+}
